@@ -42,20 +42,26 @@
                :legend true)]
     (charts/add-lines chart dates rolling-average)))
 
-(defn view-churn-chart
+(defn as-churn-chart
   [ds]
   (let [dates (map #(.getMillis %) (i/$ :index ds)) ; Incanter wants them as ms
         raw-added (i/$ :added ds)
         rolling-added (i/$ :rolling-added ds)]
-    (i/view
-     (as-time-series-plot dates raw-added rolling-added))))
+    (as-time-series-plot dates raw-added rolling-added)))
+
+(defn as-churn-trends-chart
+  [churn-file-name rolling-avg-days]
+  (->
+   (read-from churn-file-name)
+   as-zoo-ds
+   (as-rolling-added-churn rolling-avg-days)
+   as-churn-chart))
 
 (defn view-churn-trends
   ([churn-file-name]
      (view-churn-trends churn-file-name 5))
   ([churn-file-name rolling-avg-days]
      (->
-      (read-from churn-file-name)
-      as-zoo-ds
-      (as-rolling-added-churn rolling-avg-days)
-      view-churn-chart)))
+      (as-churn-trends-chart churn-file-name rolling-avg-days)
+      (i/view))))
+
