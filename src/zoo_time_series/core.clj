@@ -2,8 +2,7 @@
   (:require [incanter.core :as i]
             [incanter.zoo :as zoo]
             [incanter.io :as io]
-            [incanter.charts :as charts]
-            [clojure.math.numeric-tower :as m]))
+            [incanter.charts :as charts]))
 
 (defn read-from
   [file-name]
@@ -13,10 +12,6 @@
   [ds]
   (zoo/zoo ds :date))
 
-(defn- as-centi-float-precision
-  [v]
-  (* 0.01 (m/round (* 100 (float v)))))
-
 (defn as-rolling-added-churn
   "Calculates a rolling average of the
    positive churn (added lines of code)."
@@ -24,7 +19,6 @@
   (->>
    (i/sel ds :cols :added)
    (zoo/roll-mean n-days)
-   (map as-centi-float-precision)
    (i/dataset [:rolling-added])
    (i/conj-cols ds)))
 

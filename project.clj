@@ -5,6 +5,4 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.6.0"]
 		 [incanter "1.5.6"]
-                 [incanter/incanter-zoo "1.5.6"]
-                 [org.clojure/math.numeric-tower "0.0.4"]
-                 [clj-time "0.9.0"]])
+                 [incanter/incanter-zoo "1.5.6"]])
